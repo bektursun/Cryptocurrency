@@ -1,13 +1,59 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = "1.5.10"
+    ext.vers = [
+            "kotlin_version"   : "1.5.10",
+            "lifecycle_version": "2.3.1",
+            "room_version"     : "2.3.0",
+            "koin_version"     : "3.0.1",
+            "okhttp_version"   : "4.9.0",
+            "retrofit"         : "2.9.0"
+    ]
+    ext.libs = [
+            'kotlin'         : "org.jetbrains.kotlin:kotlin-stdlib:$vers.kotlin_version",
+            'androidx'       : [
+                    'core-ktx'        : "androidx.core:core-ktx:1.6.0",
+                    'fragment-ktx'    : "androidx.fragment:fragment-ktx:1.3.5",
+                    'lifecycle-ktx'   : "androidx.lifecycle:lifecycle-runtime-ktx:$vers.lifecycle_version",
+                    'livedata-ktx'    : "androidx.lifecycle:lifecycle-livedata-ktx:$vers.lifecycle_version",
+                    'viewmodel-ktx'   : "androidx.lifecycle:lifecycle-viewmodel-ktx:$vers.lifecycle_version",
+                    'activity-ktx'    : "androidx.activity:activity-ktx:1.2.3",
+                    'appcompat'       : 'androidx.appcompat:appcompat:1.3.0',
+                    'constraintlayout': 'androidx.constraintlayout:constraintlayout:2.0.4',
+                    'material'        : 'com.google.android.material:material:1.4.0'
+            ],
+            'network': [
+                    'retrofit': "com.squareup.retrofit2:retrofit:$vers.retrofit",
+                    'okhttp'  : "com.squareup.okhttp3:okhttp:$vers.okhttp_version",
+                    'gson'    : "com.squareup.retrofit2:converter-gson:$vers.retrofit",
+                    'logging' : "com.squareup.okhttp3:logging-interceptor:$vers.okhttp_version"
+            ],
+            'room'           : [
+                    'room'    : "androidx.room:room-runtime:$vers.room_version",
+                    'room-ktx': "androidx.room:room-ktx:$vers.room_version"
+            ],
+            'coroutine'      : [
+                    'coroutine': "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9"
+            ],
+            'koin'           : [
+                    'koin': "io.insert-koin:koin-android:$vers.koin_version"
+            ],
+            'testImpl'       : [
+                    'junit': 'junit:junit:4.+',
+            ],
+            'androidTestImpl': [
+                    'junit': 'androidx.test.ext:junit:1.1.2',
+                    'core' : 'androidx.test.espresso:espresso-core:3.3.0'
+            ],
+            'room_compiler'  : "androidx.room:room-compiler:$vers.room_version"
+    ]
+
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.2.1"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$vers.kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -18,7 +64,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
     }
 }
 
