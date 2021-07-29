@@ -49,6 +49,7 @@ dependencies {
     implementation libs.network.values()
     implementation libs.room.values()
     implementation libs.koin.values()
+    implementation libs.coil.coil
     kapt (libs.room_compiler)
 
     testImplementation libs.testImpl.values()

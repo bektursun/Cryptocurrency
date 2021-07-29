@@ -3,6 +3,7 @@ package com.bektursun.cryptolist.ui.fragment.cryptolist.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.bektursun.cryptolist.databinding.ItemCryptoCurrencyTickerBinding
 import com.bektursun.data.currencyTicker.CurrencyTicker
 
@@ -29,7 +30,10 @@ class CryptoListAdapter : RecyclerView.Adapter<CryptoListAdapter.CryptoListVH>()
 
         fun bind(currency: CurrencyTicker) {
             with(vb) {
-
+                tvCurrency.text = currency.currency
+                tvName.text = currency.name
+                tvPrice.text = currency.price.toString()
+                ivLogo.load(currency.logo_url)
             }
         }
 

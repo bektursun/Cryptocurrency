@@ -1,4 +1,4 @@
-package com.bektursun.storage.roodDB.dao
+package com.bektursun.storage.roomDB.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -14,6 +14,6 @@ interface CryptoCurrencyDao {
     fun fetchCurrencyTicker(): LiveData<List<CurrencyTicker>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCurrencyTicker(currencyTicker: CurrencyTicker)
+    suspend fun insertCurrencyTicker(currencyTicker: List<CurrencyTicker>)
 
 }

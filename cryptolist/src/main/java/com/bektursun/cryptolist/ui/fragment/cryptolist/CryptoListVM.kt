@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.bektursun.core.viewmodel.CoreViewModel
 import com.bektursun.cryptolist.repository.CryptoListRepository
 import com.bektursun.data.currencyTicker.CurrencyTicker
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 abstract class CryptoListVM : CoreViewModel() {
@@ -37,13 +38,16 @@ class CryptoListVMImpl(private val repository: CryptoListRepository) : CryptoLis
     )
 
     private fun saveInCache(currencies: List<CurrencyTicker>) {
-
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertCurrencyTicker(currencies)
+        }
     }
 
     override fun searchCurrencies(query: String?) {
         viewModelScope.launch {
             if (query != null) {
-                repository.fetchCurrencyTickerRemotely(query)
+                val response = repository.fetchCurrencyTickerRemotely(query)
+                saveInCache(response)
             }
         }
     }

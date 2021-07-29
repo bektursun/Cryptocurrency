@@ -1,6 +1,6 @@
 package com.bektursun.storage.di
 
-import com.bektursun.storage.roodDB.CryptoCurrencyDB
+import com.bektursun.storage.roomDB.CryptoCurrencyDB
 import org.koin.dsl.module
 
 val storageModule = module {

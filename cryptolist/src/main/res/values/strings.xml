@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="currency_search_hint">e.g BTC, ETH, XRP</string>
+    <string name="currency_logo_description">Crypto currency logo</string>
 </resources>
