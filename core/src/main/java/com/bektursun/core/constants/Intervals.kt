@@ -1,4 +1,4 @@
-package com.bektursun.network.constants
+package com.bektursun.core.constants
 
 enum class Intervals(val interval: String) {
     OneHour("1h"),

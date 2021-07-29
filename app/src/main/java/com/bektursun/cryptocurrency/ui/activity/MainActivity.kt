@@ -1,14 +1,18 @@
 package com.bektursun.cryptocurrency.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import com.bektursun.core.ui.activity.SimpleActivity
+import com.bektursun.core.utils.addFragmentExt
 import com.bektursun.cryptocurrency.R
+import com.bektursun.cryptocurrency.databinding.ActivityMainBinding
+import com.bektursun.cryptolist.ui.fragment.cryptolist.CryptoListFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : SimpleActivity<ActivityMainBinding>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun setupViews() {
+        addFragmentExt<CryptoListFragment>(R.id.main_container)
     }
+
+    override fun getBinding(): ActivityMainBinding =
+        ActivityMainBinding.inflate(layoutInflater)
 
 }

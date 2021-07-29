@@ -1,8 +1,7 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-parcelize'
 }
 
 android {
@@ -10,13 +9,13 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.bektursun.cryptocurrency"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -38,11 +37,11 @@ android {
 }
 
 dependencies {
+
     implementation(project(":data"))
     implementation(project(":network"))
     implementation(project(":storage"))
     implementation(project(":core"))
-    implementation(project(":cryptolist"))
 
     implementation libs.kotlin
     implementation libs.androidx.values()
