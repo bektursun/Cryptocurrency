@@ -33,7 +33,6 @@ class DebouncingTextWatcher(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun destroy() {
-        Log.e("TAG", "DebouncingTextWatcher is destroy()!")
         searchJob?.cancel()
     }
 
@@ -42,7 +41,6 @@ class DebouncingTextWatcher(
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
     override fun afterTextChanged(text: Editable?) {
-        Log.e("TAG", "after text changed!")
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             text?.let {

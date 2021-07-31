@@ -1,10 +1,7 @@
 package com.bektursun.storage.roomDB.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.bektursun.data.currencyTicker.CurrencyTicker
 
 @Dao
@@ -15,5 +12,8 @@ interface CryptoCurrencyDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCurrencyTicker(currencyTicker: List<CurrencyTicker>)
+
+    @Query("DELETE FROM currencyTicker")
+    suspend fun deleteCurrencies()
 
 }

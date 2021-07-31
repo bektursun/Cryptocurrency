@@ -1,45 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_currency"
-        android:layout_width="@dimen/size_0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/size_8dp"
+        app:layout_constraintEnd_toStartOf="@+id/iv_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="BTC" />
 
     <TextView
         android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/tv_currency"
-        app:layout_constraintTop_toBottomOf="@id/tv_currency"
+        android:layout_marginStart="@dimen/size_8dp"
         tools:text="BITCOIN" />
 
     <TextView
         android:id="@+id/tv_price"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_8dp"
         android:layout_marginBottom="@dimen/size_8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/tv_currency"
-        app:layout_constraintTop_toBottomOf="@id/tv_name"
         tools:text="39963.89728657" />
 
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="@dimen/size_0dp"
-        android:layout_height="@dimen/size_0dp"
-        android:layout_marginEnd="@dimen/size_8dp"
-        android:contentDescription="@string/currency_logo_description"
-        app:layout_constraintBottom_toBottomOf="@id/tv_price"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_currency" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

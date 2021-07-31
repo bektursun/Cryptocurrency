@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
 
+    <ProgressBar
+        android:id="@+id/progress_horizontal"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="@dimen/size_0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_search"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -17,7 +28,7 @@
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/progress_horizontal">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_search"
@@ -31,7 +42,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_currency"
-        android:layout_width="@dimen/size_0dp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/size_0dp"
         android:layout_marginTop="@dimen/size_16dp"
         android:orientation="vertical"

@@ -36,7 +36,17 @@ class CryptoListRepositoryImpl(private val api: CurrencyApi, private val dao: Cr
         api.fetchCurrenciesTicker(identificators, interval, convert, pageSize, pageNumber)
 
     override suspend fun insertCurrencyTicker(currencies: List<CurrencyTicker>) {
-        dao.insertCurrencyTicker(currencies)
+        try {
+            deleteCurrenciesFromDB()
+            dao.insertCurrencyTicker(currencies)
+        } catch (t: Throwable) {
+            t.printStackTrace()
+        }
+    }
+
+    // clear table before insert new
+    private suspend fun deleteCurrenciesFromDB() {
+        dao.deleteCurrencies()
     }
 
 }

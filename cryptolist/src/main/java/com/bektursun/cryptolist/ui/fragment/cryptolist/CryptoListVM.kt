@@ -45,9 +45,14 @@ class CryptoListVMImpl(private val repository: CryptoListRepository) : CryptoLis
 
     override fun searchCurrencies(query: String?) {
         viewModelScope.launch {
-            if (query != null) {
-                val response = repository.fetchCurrencyTickerRemotely(query)
-                saveInCache(response)
+            try {
+                if (query != null && query.isNotEmpty()) {
+                    val response =
+                        repository.fetchCurrencyTickerRemotely(query, pageSize = DEFAULT_PAGE_SIZE)
+                    saveInCache(response)
+                }
+            } catch (t: Throwable) {
+                t.printStackTrace()
             }
         }
     }

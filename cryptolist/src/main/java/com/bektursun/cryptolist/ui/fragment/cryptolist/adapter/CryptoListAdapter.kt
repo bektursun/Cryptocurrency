@@ -33,7 +33,6 @@ class CryptoListAdapter : RecyclerView.Adapter<CryptoListAdapter.CryptoListVH>()
                 tvCurrency.text = currency.currency
                 tvName.text = currency.name
                 tvPrice.text = currency.price.toString()
-                ivLogo.load(currency.logo_url)
             }
         }
 
