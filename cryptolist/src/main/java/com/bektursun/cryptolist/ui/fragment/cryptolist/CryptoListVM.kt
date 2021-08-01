@@ -1,41 +1,35 @@
 package com.bektursun.cryptolist.ui.fragment.cryptolist
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.bektursun.core.utils.ResultWrapper
 import com.bektursun.core.viewmodel.CoreViewModel
 import com.bektursun.cryptolist.repository.CryptoListRepository
 import com.bektursun.data.currencyTicker.CurrencyTicker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 abstract class CryptoListVM : CoreViewModel() {
 
     abstract val currenciesTicker: LiveData<List<CurrencyTicker>>
 
-    abstract suspend fun fetchCurrenciesTickerRemotely(
-        identificators: String,
-        interval: String? = null,
-        convert: String? = null,
-        pageSize: Int? = null,
-        pageNumber: Int? = null
-    ): List<CurrencyTicker>
+    abstract val currenciesTickerState: MutableLiveData<ResultWrapper<String>>
 
-    abstract fun searchCurrencies(query: String?)
+    abstract fun searchCurrencies(
+        query: String?, interval: String? = null, convert: String? = null,
+        pageSize: Int? = null, pageNumber: Int? = null
+    )
 }
 
 class CryptoListVMImpl(private val repository: CryptoListRepository) : CryptoListVM() {
 
-    override val currenciesTicker: LiveData<List<CurrencyTicker>> get() = repository.fetchCurrencyTickerLocally()
+    override val currenciesTicker: LiveData<List<CurrencyTicker>> =
+        repository.fetchCurrencyTickerLocally().asLiveData()
 
-    override suspend fun fetchCurrenciesTickerRemotely(
-        identificators: String,
-        interval: String?,
-        convert: String?,
-        pageSize: Int?,
-        pageNumber: Int?
-    ) = repository.fetchCurrencyTickerRemotely(
-        identificators, interval, convert, pageSize, pageNumber
-    )
+    override val currenciesTickerState: MutableLiveData<ResultWrapper<String>> = MutableLiveData()
 
     private fun saveInCache(currencies: List<CurrencyTicker>) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -43,15 +37,30 @@ class CryptoListVMImpl(private val repository: CryptoListRepository) : CryptoLis
         }
     }
 
-    override fun searchCurrencies(query: String?) {
+    override fun searchCurrencies(
+        query: String?, interval: String?, convert: String?,
+        pageSize: Int?, pageNumber: Int?
+    ) {
         viewModelScope.launch {
             try {
                 if (query != null && query.isNotEmpty()) {
+                    currenciesTickerState.value = ResultWrapper.loading()
                     val response =
-                        repository.fetchCurrencyTickerRemotely(query, pageSize = DEFAULT_PAGE_SIZE)
-                    saveInCache(response)
+                        repository.fetchCurrencyTickerRemotely(
+                            query.toUpperCase(Locale.getDefault()),
+                            interval,
+                            convert,
+                            DEFAULT_PAGE_SIZE,
+                            pageNumber
+                        )
+
+                    if (response.isNotEmpty()) {
+                        saveInCache(response)
+                        currenciesTickerState.value = ResultWrapper.success("$query")
+                    } else currenciesTickerState.value = ResultWrapper.empty("$query")
                 }
             } catch (t: Throwable) {
+                currenciesTickerState.value = ResultWrapper.error(t)
                 t.printStackTrace()
             }
         }

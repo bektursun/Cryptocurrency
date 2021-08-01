@@ -31,6 +31,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    packagingOptions {
+        // Multiple dependency bring these files in. Exclude them to enable
+        // our test APK to build (has no effect on our AARs)
+        excludes += "/META-INF/AL2.0"
+        excludes += "/META-INF/LGPL2.1"
+    }
     buildFeatures {
         viewBinding true
     }
@@ -51,6 +57,7 @@ dependencies {
     implementation libs.koin.values()
     implementation libs.coil.coil
     kapt (libs.room_compiler)
+    implementation 'com.google.guava:guava:27.0.1-android'
 
     testImplementation libs.testImpl.values()
     androidTestImplementation libs.androidTestImpl.values()

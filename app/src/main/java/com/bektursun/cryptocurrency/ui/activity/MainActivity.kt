@@ -42,8 +42,8 @@ class MainActivity : SimpleActivity<ActivityMainBinding>(),
             setMessage(R.string.network_lose_message)
             setPositiveButton(R.string.network_positive_btn_text, null)
             setIcon(R.drawable.ic_wifi_off)
-            show()
         }
+        builder.show()
     }
 
     override fun getBinding(): ActivityMainBinding =

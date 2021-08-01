@@ -13,7 +13,7 @@ sealed class ResultWrapper<out T> {
         val isNetworkError: Boolean get() = exception is IOException
     }
 
-    object Empty : ResultWrapper<Nothing>()
+    data class Empty<T>(val data: T?) : ResultWrapper<T>()
 
     object Loading : ResultWrapper<Nothing>()
 
@@ -32,7 +32,7 @@ sealed class ResultWrapper<out T> {
         /**
          * Return [Empty].
          */
-        fun empty() = Empty
+        fun <T> empty(data: T?) = Empty(data)
 
         /**
          * Return [Loading].
@@ -43,7 +43,7 @@ sealed class ResultWrapper<out T> {
          * Return [Empty] if [list] is empty, otherwise return [Success].
          */
         fun <T> successOrEmpty(list: List<T>): ResultWrapper<List<T>> {
-            return if (list.isEmpty()) Empty else Success(list)
+            return if (list.isEmpty()) Empty(list) else Success(list)
         }
     }
 }

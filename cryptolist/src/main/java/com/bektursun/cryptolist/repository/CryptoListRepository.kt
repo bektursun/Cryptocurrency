@@ -1,13 +1,13 @@
 package com.bektursun.cryptolist.repository
 
-import androidx.lifecycle.LiveData
 import com.bektursun.data.currencyTicker.CurrencyTicker
 import com.bektursun.network.data.api.CurrencyApi
 import com.bektursun.storage.roomDB.dao.CryptoCurrencyDao
+import kotlinx.coroutines.flow.Flow
 
 interface CryptoListRepository {
 
-    fun fetchCurrencyTickerLocally(): LiveData<List<CurrencyTicker>>
+    fun fetchCurrencyTickerLocally(): Flow<List<CurrencyTicker>>
 
     suspend fun fetchCurrencyTickerRemotely(
         identificators: String,
@@ -24,7 +24,8 @@ interface CryptoListRepository {
 class CryptoListRepositoryImpl(private val api: CurrencyApi, private val dao: CryptoCurrencyDao) :
     CryptoListRepository {
 
-    override fun fetchCurrencyTickerLocally() = dao.fetchCurrencyTicker()
+    override fun fetchCurrencyTickerLocally(): Flow<List<CurrencyTicker>> =
+        dao.fetchCurrencyTicker()
 
     override suspend fun fetchCurrencyTickerRemotely(
         identificators: String,
@@ -32,8 +33,13 @@ class CryptoListRepositoryImpl(private val api: CurrencyApi, private val dao: Cr
         convert: String?,
         pageSize: Int?,
         pageNumber: Int?
-    ): List<CurrencyTicker> =
-        api.fetchCurrenciesTicker(identificators, interval, convert, pageSize, pageNumber)
+    ): List<CurrencyTicker> = api.fetchCurrenciesTicker(
+        identificators,
+        interval,
+        convert,
+        pageSize,
+        pageNumber
+    )
 
     override suspend fun insertCurrencyTicker(currencies: List<CurrencyTicker>) {
         try {
@@ -44,7 +50,7 @@ class CryptoListRepositoryImpl(private val api: CurrencyApi, private val dao: Cr
         }
     }
 
-    // clear table before insert new
+    // clear table before insert new data
     private suspend fun deleteCurrenciesFromDB() {
         dao.deleteCurrencies()
     }
