@@ -65,6 +65,18 @@ class CryptoCurrencyDaoTest {
     }
 
     @Test
+    fun testInsertCurrencies() = runBlocking {
+        val currency = CurrencyTicker(
+            "XRP", "XRP", "XRP", "XRP", "",
+            "active", 3283721.21
+        )
+        dao.insertCurrencyTicker(
+            listOf(currency))
+        assertThat(dao.fetchCurrencyTicker().first().size, equalTo(3))
+        assertThat(dao.fetchCurrencyTicker().first()[2], equalTo(currency))
+    }
+
+    @Test
     fun clearAndInsertTest() = runBlocking {
         val currencies = listOf(
             CurrencyTicker(

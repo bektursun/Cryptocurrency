@@ -59,6 +59,12 @@ dependencies {
     kapt (libs.room_compiler)
     implementation 'com.google.guava:guava:27.0.1-android'
 
+    // Koin testing tools
+    androidTestImplementation  "io.insert-koin:koin-test:$vers.koin_version"
+    // Needed JUnit version
+    androidTestImplementation  "io.insert-koin:koin-test-junit4:$vers.koin_version"
+    androidTestImplementation "org.mockito:mockito-android:2.22.0"
+
     testImplementation libs.testImpl.values()
     androidTestImplementation libs.androidTestImpl.values()
 }
