@@ -16,7 +16,7 @@ abstract class CryptoListVM : CoreViewModel() {
 
     abstract val currenciesTicker: LiveData<List<CurrencyTicker>>
 
-    abstract val currenciesTickerState: MutableLiveData<ResultWrapper<String>>
+    abstract val currenciesTickerState: LiveData<ResultWrapper<String>>
 
     abstract fun searchCurrencies(
         query: String?, interval: String? = null, convert: String? = null,
@@ -29,7 +29,8 @@ class CryptoListVMImpl(private val repository: CryptoListRepository) : CryptoLis
     override val currenciesTicker: LiveData<List<CurrencyTicker>> =
         repository.fetchCurrencyTickerLocally().asLiveData()
 
-    override val currenciesTickerState: MutableLiveData<ResultWrapper<String>> = MutableLiveData()
+    private val _currenciesTickerState: MutableLiveData<ResultWrapper<String>> = MutableLiveData()
+    override val currenciesTickerState: LiveData<ResultWrapper<String>> get() = _currenciesTickerState
 
     private fun saveInCache(currencies: List<CurrencyTicker>) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -44,7 +45,7 @@ class CryptoListVMImpl(private val repository: CryptoListRepository) : CryptoLis
         viewModelScope.launch {
             try {
                 if (query != null && query.isNotEmpty()) {
-                    currenciesTickerState.value = ResultWrapper.loading()
+                    _currenciesTickerState.value = ResultWrapper.loading()
                     val response =
                         repository.fetchCurrencyTickerRemotely(
                             query.toUpperCase(Locale.getDefault()),
@@ -56,11 +57,11 @@ class CryptoListVMImpl(private val repository: CryptoListRepository) : CryptoLis
 
                     if (response.isNotEmpty()) {
                         saveInCache(response)
-                        currenciesTickerState.value = ResultWrapper.success("$query")
-                    } else currenciesTickerState.value = ResultWrapper.empty("$query")
+                        _currenciesTickerState.value = ResultWrapper.success("$query")
+                    } else _currenciesTickerState.value = ResultWrapper.empty("$query")
                 }
             } catch (t: Throwable) {
-                currenciesTickerState.value = ResultWrapper.error(t)
+                _currenciesTickerState.value = ResultWrapper.error(t)
                 t.printStackTrace()
             }
         }
