@@ -1,0 +1,70 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    packagingOptions {
+        // Multiple dependency bring these files in. Exclude them to enable
+        // our test APK to build (has no effect on our AARs)
+        excludes += "/META-INF/AL2.0"
+        excludes += "/META-INF/LGPL2.1"
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation(project(":data"))
+    implementation(project(":network"))
+    implementation(project(":storage"))
+    implementation(project(":core"))
+
+    implementation libs.kotlin
+    implementation libs.androidx.values()
+    implementation libs.coroutine.values()
+    implementation libs.network.values()
+    implementation libs.room.values()
+    implementation libs.koin.values()
+    implementation libs.coil.coil
+    kapt (libs.room_compiler)
+    implementation 'com.google.guava:guava:27.0.1-android'
+
+    // Koin testing tools
+    androidTestImplementation  "io.insert-koin:koin-test:$vers.koin_version"
+    // Needed JUnit version
+    androidTestImplementation  "io.insert-koin:koin-test-junit4:$vers.koin_version"
+    androidTestImplementation "org.mockito:mockito-android:2.22.0"
+
+    testImplementation libs.testImpl.values()
+    androidTestImplementation libs.androidTestImpl.values()
+}

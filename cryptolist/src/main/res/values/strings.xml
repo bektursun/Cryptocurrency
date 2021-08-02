@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="currency_search_hint">e.g BTC, ETH, XRP</string>
+    <string name="currency_logo_description">Crypto currency logo</string>
+    <string name="currency_label">Currency: %s</string>
+    <string name="currency_symbol_label">Symbol: %s</string>
+    <string name="currency_name_label">Name: %s</string>
+    <string name="currency_price_label">Price: %s</string>
+    <string name="empty_request_message">По запросу: %s ничего не найдено..</string>
+    <string name="error_request_message">Упс, что-то пошло не так..</string>
+</resources>

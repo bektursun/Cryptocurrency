@@ -32,12 +32,24 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    packagingOptions {
+        // Multiple dependency bring these files in. Exclude them to enable
+        // our test APK to build (has no effect on our AARs)
+        excludes += "/META-INF/AL2.0"
+        excludes += "/META-INF/LGPL2.1"
+    }
     buildFeatures {
         viewBinding true
     }
 }
 
 dependencies {
+    implementation(project(":data"))
+    implementation(project(":network"))
+    implementation(project(":storage"))
+    implementation(project(":core"))
+    implementation(project(":cryptolist"))
+
     implementation libs.kotlin
     implementation libs.androidx.values()
     implementation libs.coroutine.values()
@@ -45,6 +57,12 @@ dependencies {
     implementation libs.room.values()
     implementation libs.koin.values()
     kapt (libs.room_compiler)
+
+    // Koin testing tools
+    androidTestImplementation  "io.insert-koin:koin-test:$vers.koin_version"
+    // Needed JUnit version
+    androidTestImplementation  "io.insert-koin:koin-test-junit4:$vers.koin_version"
+    androidTestImplementation "org.mockito:mockito-android:2.22.0"
 
     testImplementation libs.testImpl.values()
     androidTestImplementation libs.androidTestImpl.values()

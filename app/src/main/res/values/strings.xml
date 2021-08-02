@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Cryptocurrency</string>
+    <string name="network_lose_title">Похоже пропал интернет</string>
+    <string name="network_lose_message">Проверьте интернет-соединение</string>
+    <string name="network_positive_btn_text">Хорошо</string>
 </resources>
